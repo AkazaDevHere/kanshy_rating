@@ -3,7 +3,37 @@
 <head>
     <title>Staff Rating Form</title>
     <style>
-        /* Styles here */
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #00a2ff;
+        }
+
+        #ratingFormContainer {
+            max-width: 600px;
+            padding: 20px;
+            background-color: #00d2ff;
+            border: 5px solid #828282;
+            border-radius: 10px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        #ratingForm {
+            /* Add any additional styling for the form here */
+        }
+
+        /* Style the image to center it within the container */
+        #ratingForm img {
+        margin: 0 auto; /* Center the image horizontally */
+        display: block; /* Remove any default spacing that may affect centering */
+        border: 5px solid #828282; /* Add a border to the image */
+        border-radius: 50%; /* Make the image circular by setting border-radius to 50% */
+        margin-bottom: 20px; /* Add some space between the image and the form */
+        }
     </style>
     <!-- Include jQuery library -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -11,25 +41,27 @@
 <body>
     <div id="ratingFormContainer">
         <div id="ratingForm">
+            <!-- Add the image above the h1 element -->
+            <img src="channels4_profile_1.jpg" alt="Staff Image" width="100" height="100">
             <h1>Staff Rating Form</h1>
             <form id="ratingForm">
                 <!-- Dropdown list to select staff -->
                 <label for="staff">Select Staff:</label>
                 <select id="staff" name="staff">
-                    <option value="staff1">Staff 1</option>
-                    <option value="staff2">Staff 2</option>
-                    <option value="staff3">Staff 3</option>
+                    <option value="Mystro">Mystro</option>
+                    <option value="OnlyVenom">OnlyVenom</option>
+                    <option value="MedoPro">MedoPro</option>
                     <!-- You can add more staff options as needed -->
                 </select>
                 <br>
                 <!-- Dropdown list to select rating -->
                 <label for="rating">Select Rating:</label>
                 <select id="rating" name="rating">
-                    <option value="1">1 - Poor</option>
-                    <option value="2">2 - Below Average</option>
-                    <option value="3">3 - Average</option>
-                    <option value="4">4 - Good</option>
-                    <option value="5">5 - Excellent</option>
+                    <option value="1 star">⭐</option>
+                    <option value="2 star">⭐⭐</option>
+                    <option value="3 star">⭐⭐⭐</option>
+                    <option value="4 star">⭐⭐⭐⭐</option>
+                    <option value="5 star">⭐⭐⭐⭐⭐</option>
                 </select>
                 <br>
                 <input type="submit" value="Submit">
@@ -60,7 +92,7 @@
 
                 // Create the JSON payload with all staff ratings
                 var payload = {
-                    "content": "**All Staff Rating🌟**:\n\n" // Add two line breaks after the header
+                    "content": "**All Staff Ratings🌟**:\n\n" // Add two line breaks after the header
                 };
 
                 for (var staffMember in ratings) {
@@ -68,7 +100,7 @@
                         var totalRating = ratings[staffMember].reduce((a, b) => a + b, 0);
                         var averageRating = totalRating / ratings[staffMember].length;
 
-                        payload.content += `**Staff name🛠️** : ${staffMember}\n**Total Rating🌟** : ${totalRating}\n**The Finsh Rating🌟** : ${averageRating.toFixed(2)}\n\n`; // Add two line breaks after each staff rating entry
+                        payload.content += `**Staff name🛠️** : ${staffMember}\n**New Rating🌟** : ${averageRating.toFixed(2)}\n**Total Rating🌟** : ${totalRating}\n\n`; // Add two line breaks after each staff rating entry
                     }
                 }
 
