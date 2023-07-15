@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Staff Rating Form</title>
+    <style>
+        /* Styles here */
+    </style>
+    <!-- Include jQuery library -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+    <div id="ratingFormContainer">
+        <div id="ratingForm">
+            <h1>Staff Rating Form</h1>
+            <form id="ratingForm">
+                <!-- Dropdown list to select staff -->
+                <label for="staff">Select Staff:</label>
+                <select id="staff" name="staff">
+                    <option value="staff1">Staff 1</option>
+                    <option value="staff2">Staff 2</option>
+                    <option value="staff3">Staff 3</option>
+                    <!-- You can add more staff options as needed -->
+                </select>
+                <br>
+                <!-- Dropdown list to select rating -->
+                <label for="rating">Select Rating:</label>
+                <select id="rating" name="rating">
+                    <option value="1">1 - Poor</option>
+                    <option value="2">2 - Below Average</option>
+                    <option value="3">3 - Average</option>
+                    <option value="4">4 - Good</option>
+                    <option value="5">5 - Excellent</option>
+                </select>
+                <br>
+                <input type="submit" value="Submit">
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // Initialize the ratings object to store cumulative ratings for each staff member
+        var ratings = {};
+
+        $(document).ready(function() {
+            $("#ratingForm").submit(function(event) {
+                event.preventDefault();
+                var staff = $("#staff").val();
+                var rating = parseInt($("#rating").val());
+
+                // Check if the staff member already has a rating in the ratings object
+                if (ratings.hasOwnProperty(staff)) {
+                    // If the staff member already has a rating, add the new rating to the existing total
+                    ratings[staff].push(rating);
+                } else {
+                    // If the staff member doesn't have a rating, initialize their rating as an array with the current rating
+                    ratings[staff] = [rating];
+                }
+
+                var discordWebhookURL = "https://discord.com/api/webhooks/1129727592962998304/vX3f2Rgt4Lw0n7v21Wh5cr3FkKnrxCe5arQpYWCzW_ydiXngtwpItqMhjtayAEx1xgxC";
+
+                // Create the JSON payload with all staff ratings
+                var payload = {
+                    "content": "**All Staff Rating🌟**:\n\n" // Add two line breaks after the header
+                };
+
+                for (var staffMember in ratings) {
+                    if (ratings.hasOwnProperty(staffMember)) {
+                        var totalRating = ratings[staffMember].reduce((a, b) => a + b, 0);
+                        var averageRating = totalRating / ratings[staffMember].length;
+
+                        payload.content += `**Staff name🛠️** : ${staffMember}\n**Total Rating🌟** : ${totalRating}\n**The Finsh Rating🌟** : ${averageRating.toFixed(2)}\n\n`; // Add two line breaks after each staff rating entry
+                    }
+                }
+
+                // Send the data to the Discord webhook using AJAX
+                $.ajax({
+                    type: "POST",
+                    url: discordWebhookURL,
+                    data: JSON.stringify(payload),
+                    contentType: "application/json",
+                    success: function() {
+                        alert("Thank you for your rating for " + staff + "!");
+                    },
+                    error: function() {
+                        alert("An error occurred. Please try again later.");
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
